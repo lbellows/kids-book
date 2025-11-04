@@ -1,0 +1,29 @@
+body {
+  font-family: "Georgia", serif;
+  line-height: 1.4;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3 {
+  font-family: "Palatino", serif;
+  font-weight: normal;
+  text-align: center;
+  margin-top: 1.5em;
+}
+
+p {
+  margin: 0 0 1em;
+  text-indent: 1.2em;
+}
+
+div.toc {
+  margin: 1em 0;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #aaa;
+  width: 50%;
+  margin: 2em auto;
+}
