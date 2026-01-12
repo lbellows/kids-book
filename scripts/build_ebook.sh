@@ -11,6 +11,13 @@ METADATA_FILE="${MANUSCRIPT_DIR}/metadata.yaml"
 CHAPTER_DIR="${MANUSCRIPT_DIR}/chapters"
 DEFAULT_OUTPUT="kids-book-sample.epub"
 COVER_IMAGE="${MANUSCRIPT_DIR}/cover.png"
+FORMAT_CONFIG="${ROOT_DIR}/config/book_format.env"
+BOOK_FORMAT="reflowable"
+
+if [[ -f "${FORMAT_CONFIG}" ]]; then
+  # shellcheck disable=SC1090
+  source "${FORMAT_CONFIG}"
+fi
 
 output_name="${DEFAULT_OUTPUT}"
 use_cover=true
@@ -40,6 +47,14 @@ if ! command -v pandoc >/dev/null 2>&1; then
   echo "Error: pandoc is not installed or not on PATH." >&2
   echo "Install pandoc (https://pandoc.org/installing.html) and try again." >&2
   exit 1
+fi
+
+if [[ "${BOOK_FORMAT}" == "fixed" ]]; then
+  cat <<'EOF' >&2
+Warning: BOOK_FORMAT=fixed in config/book_format.env.
+Reflowable EPUBs may not preserve illustrated layouts. Consider using
+scripts/build_fixed_layout.sh and exporting a KPF + print-ready PDF instead.
+EOF
 fi
 
 if [[ ! -f "${METADATA_FILE}" ]]; then

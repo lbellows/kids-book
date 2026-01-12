@@ -19,14 +19,20 @@ manuscript/
   chapters/       # Markdown chapters/sections in reading order
   cover.png       # (Optional) KDP-compliant cover image placed here
 config/
-  publishing.env  # Gitignored secrets for CLI/API publishing (create locally)
+  book_format.env # Select reflowable vs fixed-layout workflows
+  publishing.env.example # Template for CLI/API publishing credentials
 scripts/
   build_ebook.sh  # Generates an EPUB suitable for Kindle upload
   build_docx.sh   # Generates a DOCX manuscript for print/paperback
+  build_fixed_layout.sh # Guidance for fixed-layout (illustrated) exports
+  validate_manuscript.sh # Validates metadata + chapter structure
+  scaffold_book.sh # Scaffolds prompt + manuscript stubs
   publish_cli.sh  # Orchestrates scripted exports + API hand-off
 styles/
   ebook.css       # Minimal typography overrides for the EPUB build
 output/           # Build artifacts are written here
+prompts/
+  book_prompt_template.md # Prompt scaffold for book generation
 ```
 
 ## Prerequisites
@@ -69,6 +75,10 @@ scripts/build_docx.sh
 Both scripts will surface actionable errors if something is missing (Pandoc
 not installed, chapters absent, metadata incomplete, etc.).
 
+Note: Set `BOOK_FORMAT` in `config/book_format.env` to choose between a
+reflowable workflow (EPUB/DOCX) and fixed-layout guidance (KPF + PDF). See
+`docs/publishing.md` for details.
+
 ## Next steps
 
 Head to `docs/publishing.md` for detailed guidance on polishing your files,
@@ -76,6 +86,13 @@ packaging front/back matter, checking accessibility, and completing the KDP
 upload and launch steps. That guide covers both manual dashboard publishing
 and how to integrate `scripts/publish_cli.sh` with the KDP Publishing API (if
 you have access).
+
+For prompt-driven generation, start with `prompts/book_prompt_template.md`
+and scaffold via `scripts/scaffold_book.sh`, then validate the output via
+`scripts/validate_manuscript.sh`.
+
+Use `scripts/scaffold_book.sh --clean` to remove scaffolded placeholder files
+that still contain the scaffold marker.
 
 1. Install Pandoc locally, run scripts/build_ebook.sh and scripts/build_docx.sh, then preview the files in Kindle Previewer/Word.
 2. Replace manuscript/cover.png with your final cover art and rerun the EPUB build.

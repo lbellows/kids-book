@@ -8,6 +8,11 @@ covers technical exports, quality checks, and the KDP submission flow.
 - **Finalize content**: Proofread the Markdown chapters in `manuscript/chapters`
   and ensure headings follow a logical hierarchy (`#` for title page, `##`
   for chapters, etc.).
+- **Confirm format needs**: Choose a reflowable or fixed-layout workflow in
+  `config/book_format.env`:
+  - `BOOK_FORMAT=reflowable`: EPUB + DOCX (best for text-forward books).
+  - `BOOK_FORMAT=fixed`: KPF + print-ready PDF (best for illustrated books).
+  This determines whether you will need Kindle Kids' Book Creator/Kindle Create.
 - **Update metadata**: Edit `manuscript/metadata.yaml` so it reflects your
   final title, subtitle, author name(s), description, and rights statement.
 - **Front/back matter**: Add dedication, copyright, acknowledgements, and
@@ -27,6 +32,12 @@ covers technical exports, quality checks, and the KDP submission flow.
 2. **Paperback (optional)**: Run `scripts/build_docx.sh --output <your-title>.docx`.
    - Review the DOCX in Microsoft Word or LibreOffice Writer.
    - Set page size, margins, and fonts according to KDP paperback guidelines.
+   - Export a print-ready PDF if you are producing a paperback, matching trim
+     size, bleed, and color settings required by KDP.
+3. **Fixed layout (if illustrated)**: For image-heavy picture books, generate
+   a KPF file via Kindle Kids' Book Creator or Kindle Create. KDP may reject
+   reflowable EPUBs that don't preserve page layouts. Use
+   `scripts/build_fixed_layout.sh` for a guided checklist.
 
 ## 3. Validate files
 
@@ -40,6 +51,8 @@ covers technical exports, quality checks, and the KDP submission flow.
   - For eBooks, export a single front cover (`manuscript/cover.png`).
   - For paperbacks, use Amazon's [Cover Creator](https://kdp.amazon.com/en_US/cover-templates)
     or upload a PDF wraparound file matching trim size + bleed.
+- **Image specs**: Use 300 DPI images for print and verify color profile
+  compatibility for both ebook and paperback uploads.
 
 ## 4. KDP upload options
 
@@ -57,7 +70,7 @@ covers technical exports, quality checks, and the KDP submission flow.
    - Upload your cover (PNG/JPG). Use the previewer to review every page.
 5. **Kindle eBook Pricing**:
    - Select territories.
-  - Set pricing and royalty option (35% or 70%).
+   - Set pricing and royalty option (35% or 70%).
 6. For **Paperback**:
    - Repeat the details tab.
    - Upload the DOCX (or a print-ready PDF) and your paperback cover PDF.
@@ -72,6 +85,7 @@ If you have access to the KDP Publishing API (currently invite-only) or a
 third-party CLI that wraps it, use the scaffolded script in this repository:
 
 1. Populate `config/publishing.env` with your credentials:
+   - Copy `config/publishing.env.example` to `config/publishing.env`.
    - `AMAZON_KDP_ACCESS_KEY`, `AMAZON_KDP_SECRET_KEY`
    - `KDP_PROFILE_NAME`, `KDP_REGION`
 2. Run the automated build and validation pipeline:
@@ -95,14 +109,27 @@ third-party CLI that wraps it, use the scaffolded script in this repository:
 > and use a secrets manager (AWS Secrets Manager, 1Password, etc.) for shared
 > environments.
 
-## 5. Launch preparation
+## 5. Amazon marketplace checklist
+
+- **Account readiness**: Complete tax, banking, and author profile setup in KDP.
+- **Primary marketplace**: Choose the main marketplace and confirm territories.
+- **ISBN and imprint**: Decide on a free KDP ISBN vs your own, and set your
+  imprint/publisher name consistently.
+- **Categories and age range**: Pick 2 categories and the best-fit age/grade
+  ranges for children's books.
+- **Pricing and royalties**: Validate list price, delivery cost impact, and
+  royalty option per marketplace (35% or 70% for ebooks).
+- **Rights and content checks**: Confirm you own all rights, use original
+  characters, and avoid trademarked brands.
+
+## 6. Launch preparation
 
 - Prepare marketing copy and a launch date.
 - Set up your Author Central profile.
 - Collect early readers for reviews.
 - Share progress updates on social media or a mailing list.
 
-## 6. Maintenance and versioning
+## 7. Maintenance and versioning
 
 - Use git tags or branches to mark major manuscript versions.
 - Keep a changelog (e.g., `docs/changelog.md`) tracking edits post-release.

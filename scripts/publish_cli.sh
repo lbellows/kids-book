@@ -3,12 +3,19 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CONFIG_FILE="${ROOT_DIR}/config/publishing.env"
+FORMAT_CONFIG="${ROOT_DIR}/config/book_format.env"
 OUTPUT_DIR="${ROOT_DIR}/output"
 DEFAULT_TITLE_SLUG="kids-book-sample"
 EPUB_NAME="${DEFAULT_TITLE_SLUG}.epub"
 DOCX_NAME="${DEFAULT_TITLE_SLUG}.docx"
 BUILD_EBOOK_SCRIPT="${ROOT_DIR}/scripts/build_ebook.sh"
 BUILD_DOCX_SCRIPT="${ROOT_DIR}/scripts/build_docx.sh"
+BOOK_FORMAT="reflowable"
+
+if [[ -f "${FORMAT_CONFIG}" ]]; then
+  # shellcheck disable=SC1090
+  source "${FORMAT_CONFIG}"
+fi
 
 usage() {
   cat <<'USAGE'
@@ -57,7 +64,7 @@ done
 if [[ ! -f "${CONFIG_FILE}" ]]; then
   cat <<EOF >&2
 Error: publishing config not found at ${CONFIG_FILE}.
-Create this file (it is gitignored) and add your KDP API credentials and settings.
+Create this file by copying ${ROOT_DIR}/config/publishing.env.example and add your KDP API credentials.
 EOF
   exit 1
 fi
@@ -87,6 +94,14 @@ fi
 if [[ "${run_docx}" == true ]]; then
   "${BUILD_DOCX_SCRIPT}" --output "${title_slug}.docx"
   DOCX_NAME="${title_slug}.docx"
+fi
+
+if [[ "${BOOK_FORMAT}" == "fixed" ]]; then
+  cat <<'EOF' >&2
+Note: BOOK_FORMAT=fixed is set. The CLI helper only builds reflowable outputs.
+For fixed layout, export a KPF (Kindle Create/Kids' Book Creator) and a
+print-ready PDF, then upload those assets in KDP.
+EOF
 fi
 
 cat <<EOF

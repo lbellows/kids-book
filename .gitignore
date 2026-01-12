@@ -1,2 +1,3 @@
-config/publishing.env
-output/*
+/output/
+/config/publishing.env
+/.scaffold_manifest
