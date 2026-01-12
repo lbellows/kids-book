@@ -120,5 +120,5 @@ Next steps for CLI/API publishing:
           https://{api-gateway-id}.execute-api.${KDP_REGION}.amazonaws.com/production/assets
   3. Repeat for the paperback asset if applicable.
 
-Refer to docs/publishing.md for full instructions and API references.
+Refer to docs/old-but-valid-publishing.md for full instructions and API references.
 EOF

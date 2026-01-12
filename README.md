@@ -77,11 +77,11 @@ not installed, chapters absent, metadata incomplete, etc.).
 
 Note: Set `BOOK_FORMAT` in `config/book_format.env` to choose between a
 reflowable workflow (EPUB/DOCX) and fixed-layout guidance (KPF + PDF). See
-`docs/publishing.md` for details.
+`docs/old-but-valid-publishing.md` for details.
 
 ## Next steps
 
-Head to `docs/publishing.md` for detailed guidance on polishing your files,
+Head to `docs/old-but-valid-publishing.md` for detailed guidance on polishing your files,
 packaging front/back matter, checking accessibility, and completing the KDP
 upload and launch steps. That guide covers both manual dashboard publishing
 and how to integrate `scripts/publish_cli.sh` with the KDP Publishing API (if
@@ -96,4 +96,4 @@ that still contain the scaffold marker.
 
 1. Install Pandoc locally, run scripts/build_ebook.sh and scripts/build_docx.sh, then preview the files in Kindle Previewer/Word.
 2. Replace manuscript/cover.png with your final cover art and rerun the EPUB build.
-3. Follow docs/publishing.md to complete metadata checks and upload the files to KDP.
+3. Follow docs/old-but-valid-publishing.md to complete metadata checks and upload the files to KDP.
